@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from gridfs import GridFSBucket
 from gridfs.grid_file import GridOut, GridIn, _SEEK_SET
@@ -13,6 +13,7 @@ from pymongo.database import DEFAULT_CODEC_OPTIONS
 
 class AsyncIOMotorClient(core.AgnosticClient):
     __doc__ = core.AgnosticClient.__doc__
+    
     @property
     def address(self): ...
     
@@ -137,7 +138,7 @@ class AsyncIOMotorClient(core.AgnosticClient):
     
     async def unlock(self, session=None):
         __doc__ = docstrings.unlock_doc
-
+    
     def __getitem__(self, name) -> 'AsyncIOMotorDatabase': ...
 
 
@@ -287,7 +288,7 @@ class AsyncIOMotorCollection(core.AgnosticCollection):
     
     def find_raw_batches(self, *args, **kwargs) -> AsyncIOMotorCursor: ...
     
-    async def find_one(self, filter=None, *args, **kwargs):
+    async def find_one(self, filter=None, *args, **kwargs) -> Optional[dict]:
         __doc__ = docstrings.find_one_doc
     
     async def find_one_and_delete(self, filter,
@@ -318,11 +319,11 @@ class AsyncIOMotorCollection(core.AgnosticCollection):
                                 **kwargs): ...
     
     async def insert_many(self, documents, ordered=True,
-                          bypass_document_validation=False, session=None):
+                          bypass_document_validation=False, session=None) -> results.InsertManyResult:
         __doc__ = docstrings.insert_many_doc
     
     async def insert_one(self, document, bypass_document_validation=False,
-                         session=None):
+                         session=None) -> results.InsertOneResult:
         __doc__ = docstrings.insert_one_doc
     
     async def map_reduce(self, map, reduce, out, full_response=False, session=None,
